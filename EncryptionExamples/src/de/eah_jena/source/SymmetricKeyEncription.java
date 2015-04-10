@@ -111,7 +111,13 @@ private MessageDigest sha;
             //Verschlüsseln und Ausgabe in Console
             encryptText = AesCipher.doFinal(byteText);
             System.out.println("\nVerschlüsselter Text:");
+            
             System.out.write(encryptText);
+            System.out.println("\n" + encryptText);
+            String encryptString = encryptText.toString();
+            System.out.println(encryptString);
+            
+          
     }
     
     public void decrypt() throws Exception {
@@ -130,26 +136,35 @@ private MessageDigest sha;
     
     public void decryptCustomEncryptedText() throws Exception {
     	
+    BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
        System.out.println("\n \nVerschlüsselter Text:");
-    	
+//      String cipherTextCustom = new String(console.readLine());
        String inputText =  new String(console.readLine());
        
-       System.out.println("Bitte Schlüssel/Passwort angeben:");
-       
-       String inputKey =  new String(console.readLine());
-       
-    
-   	 //hier liest er den verschlüsselten Text aus, den er entschlüsselt
-       byte[] byteInput = (inputText).getBytes("UTF-8");
-       encryptText = byteInput;	
-       byte[] cipherText = encryptText;
-
+       //hier liest er den verschlüsselten Text aus, den er entschlüsselt
       
-       AesCipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-       byte[] bytePlainText = AesCipher.doFinal(cipherText);
+  
+       byte[] cipherTextCustom1 = (inputText).getBytes();
+       
+       System.out.println("\nBitte Schlüssel/Passwort angeben:");
+       
+      String inputKey =  new String(console.readLine());
+       
+      byte[] keyCustom = (inputKey).getBytes("UTF-8");
+     // aus dem Array einen Hash-Wert erzeugen mit MD5 oder SHA
+     keyCustom = sha.digest(keyCustom);
+     // nur die ersten 128 bit nutzen; da AES auf eine feste Größe beschränkt ist
+     keyCustom = Arrays.copyOf(keyCustom, 16); 
+     // der fertige Schluessel
+     SecretKeySpec secretKeySpecCustom = new SecretKeySpec(keyCustom, "AES");
+    
+//       System.out.println(keyCustom.length);
+      
+       AesCipher.init(Cipher.DECRYPT_MODE, secretKeySpecCustom);
+       byte[] bytePlainTextCustom = AesCipher.doFinal(cipherTextCustom1);
        
        //Ausgabe in Console
        System.out.println("\n \nEntschlüsselter Text:");
-       System.out.write(bytePlainText);
+       System.out.write(bytePlainTextCustom);
    }
 }
