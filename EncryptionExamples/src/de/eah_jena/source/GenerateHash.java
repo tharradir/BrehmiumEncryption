@@ -34,7 +34,7 @@ public void generateHash() {
 		e.printStackTrace();
 	}
 //  erzeugten Haswert ausgeben
-    System.out.println("Hashwert für eingegebenen String:" + Str.hashCode() );
+    System.out.println("Hashwert für eingegebenen Text: " + Str.hashCode() );
 }
 
 }
