@@ -46,7 +46,7 @@ private MessageDigest sha;
     	}
     	
 		key = (keyStr).getBytes("UTF-8");
-		byteText = textStr.getBytes();
+		byteText = textStr.getBytes("UTF-8");
 		AesCipher = Cipher.getInstance("AES");
 //		aus dem  Array einen Hash-Wert mit MD5 oder SHA erzeugen
 		sha = MessageDigest.getInstance("MD5");
