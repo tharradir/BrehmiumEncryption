@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.util.Arrays;
+// import java.util.Base64; erst ab Java 8 (1.8)
+import org.apache.commons.codec.binary.Base64;
 
 @SuppressWarnings("unused")
 public class SymmetricKeyEncription {
@@ -17,6 +19,7 @@ public class SymmetricKeyEncription {
 	private byte[] key;
 	private String keyStr;
 	private byte[] encryptText;
+	private byte[] base64Cipher;
 	private SecretKeySpec secretKeySpec;
 	private BufferedReader console;
 	private String textStr;
@@ -59,7 +62,7 @@ public class SymmetricKeyEncription {
 		sha = MessageDigest.getInstance("MD5");
 		key = sha.digest(key);
 
-		// nur die ersten 128 bit nutzen; da AES auf eine feste Größe beschränkt
+		// nur die ersten 128 bit (16 Byte) nutzen; da AES auf eine feste Größe beschränkt
 		key = Arrays.copyOf(key, 16);
 
 		// geheimen Schlüssel aus eingegebenem Schlüsseltext erzeugen
@@ -73,10 +76,24 @@ public class SymmetricKeyEncription {
 
 		// Verschlüsseln
 		encryptText = AesCipher.doFinal(byteText);
+		
+/**
+ * 	Nutzbar ab Java 8 ohne weiteren import einer Fremden .jar
+ * 
+ * 	byte[] bytes = encryptText.getBytes("UTF-8");
+ * 	String encoded = Base64.getEncoder().encodeToString(bytes);
+ * 	byte[] decoded = Base64.getDecoder().decode(encoded);
+ * 
+ * 
+ */
+		// Codierung mittels Base64 zu 8 bit-Binärdaten
+		base64Cipher = Base64.encodeBase64(encryptText);
 
 		// Ausgabe in Console
 		System.out.println("\nVerschlüsselter Text:");
 		System.out.write(encryptText);
+		System.out.println("\n");		
+		System.out.write(base64Cipher);
 
 	}
 
@@ -84,7 +101,7 @@ public class SymmetricKeyEncription {
 
 		// hier liest er den verschlüsselten Text aus, den er entschlüsselt
 		byte[] cipherText = encryptText;
-
+		
 		// Entschlüsseln
 		AesCipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
 		byte[] bytePlainText = AesCipher.doFinal(cipherText);
@@ -103,9 +120,11 @@ public class SymmetricKeyEncription {
 		// verschlüsselten Text abfragen
 		System.out.println("\n \nVerschlüsselter Text:");
 		String inputText = new String(console.readLine());
-
-		// verschlüsselten Text in Byte-Format umwandeln
-		byte[] cipherTextCustom1 = (inputText).getBytes();
+		
+		// verschlüsselten Text Base64 decodieren und in Byte-Format umwandeln
+		byte[] cipherTextCustom1 = Base64.decodeBase64(inputText.getBytes());
+		
+		//byte[] cipherTextCustom1 = (inputText).getBytes();
 
 		// Schlüssel/Passwort der Verschlüsselung abfragen
 		System.out.println("\nBitte Schlüssel/Passwort angeben:");
