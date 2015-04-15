@@ -91,8 +91,8 @@ public class SymmetricKeyEncription {
 
 		// Ausgabe in Console
 		System.out.println("\nVerschlüsselter Text:");
-		System.out.write(encryptText);
-		System.out.println("\n");		
+//		System.out.write(encryptText);
+//		System.out.println("\n");		
 		System.out.write(base64Cipher);
 
 	}

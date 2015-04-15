@@ -20,9 +20,9 @@ import java.security.spec.*;
 import de.flexiprovider.core.FlexiCoreProvider;
 
 @SuppressWarnings("unused")
-public class ExampleRSA {
+public class AsymmetricKeyEncryption {
 
-    public static void main(String[] args) throws Exception {
+    public void completeAsymetricCryptography() throws Exception {
 
 	Security.addProvider(new FlexiCoreProvider());
 
