@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.util.Arrays;
-// import java.util.Base64; erst ab Java 8 (1.8)
+//import java.util.Base64;
 import org.apache.commons.codec.binary.Base64;
 
 @SuppressWarnings("unused")
