@@ -18,11 +18,15 @@ import javax.crypto.CipherOutputStream;
 
 import org.apache.commons.codec.binary.Base64;
 
+import java.util.*;
 import java.io.*;
+import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.*;
 
 import de.flexiprovider.core.FlexiCoreProvider;
+import de.flexiprovider.core.pbe.PBEKeySpec;
+import de.flexiprovider.core.rsa.RSAPublicKey;
 
 @SuppressWarnings("unused")
 public class AsymmetricKeyEncryption {
@@ -135,5 +139,18 @@ public class AsymmetricKeyEncryption {
 //		System.out.println(publicKey.toString());
 //		
 //		
+//	}
+	
+//	public void decrypt() {
+//		
+//		System.out.println("\nBitte public exponent angeben:");
+//		BigInteger pubExp = new BigInteger(console.readLine());
+//		System.out.println("\nBitte modulus angeben:");
+//		String modulusBase64 =new String(console.readLine()); // your Base64 string here
+//		BigInteger modulus = new BigInteger(1,
+//		        Base64.decodeBase64(modulusBase64.getBytes("UTF-8")));
+//		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//		RSAPublicKeySpec ks = new RSAPublicKeySpec(modulus, pubExp);
+//		RSAPublicKey pubKey = (RSAPublicKey)keyFactory.generatePublic(KeySpec);
 //	}
 }

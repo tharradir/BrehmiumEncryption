@@ -10,6 +10,6 @@ public class TestAsymmetricKeyEncryption {
 		// durchführen
 		AsymmetricKeyEncryption asymm = new AsymmetricKeyEncryption();
 		asymm.completeAsymetricCryptography();
-		asymm.decrypt();
+//		asymm.decrypt();
 	}
 }
