@@ -48,7 +48,7 @@ public class AsymmetricKeyEncryption {
 		Security.addProvider(new FlexiCoreProvider());
 
 		KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA", "FlexiCore");
-		Cipher cipher = Cipher.getInstance("RSA", "FlexiCore");
+		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", "FlexiCore");
 
 		kpg.initialize(1024);
 		KeyPair keyPair = kpg.generateKeyPair();
@@ -182,14 +182,31 @@ public class AsymmetricKeyEncryption {
 		System.out.println("\nBitte modulus angeben:");
 		String modulusInput = new String(console.readLine());
 		String modulusBase64 =new String(modulusInput); // your Base64 string here
-		BigInteger modulus = new BigInteger(1,
-		        Base64.decodeBase64(modulusBase64.getBytes("UTF-8")));
+		BigInteger modulus = new BigInteger(1,modulusBase64.getBytes());
 		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 		RSAPublicKeySpec ks = new RSAPublicKeySpec(modulus, pubExp);
 		
 		RSAPublicKey pubKey = (RSAPublicKey)keyFactory.generatePublic(ks);
 		
-		Cipher cipher = Cipher.getInstance("RSA", "FlexiCore");
+		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", "FlexiCore");
+		
+		
+		base64pubKey = Base64.encodeBase64(pubKey.getEncoded());
+//		System.out.println("Public Key: " + getHexString(pub.getEncoded()));
+//		System.out.println("\n");
+		System.out.println("Public Key: ");
+		
+		System.out.println("\n");
+		 System.out.write(base64pubKey);
+		 System.out.println("\n");
+		 System.out.println(KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(pubKey.getEncoded())).toString());
+		 
+		
+		
+		
+		
+		
+		
 		
 		cipher.init(Cipher.ENCRYPT_MODE, pubKey);
 

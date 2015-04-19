@@ -47,6 +47,13 @@ public class AsymmetricEncryption {
         return publicKey;
     }
     
+    /**
+	 * Save your private and public key to a file. 
+	 * The strings must not be null.
+	 * 
+	 * @param privateKeyPathName String -> you can use "//" to switch the folder
+	 * @param publicKeyPathName String 
+	 */
     public final void toFileSystem(String privateKeyPathName, String publicKeyPathName)
             throws IOException {
         
@@ -83,39 +90,66 @@ public class AsymmetricEncryption {
         }
     }
 	
-	
-	public void readEncryptSaveDecrypt (String cipherTextPath, String privateKeyPath, String transformation, String encoding)
+    /**
+	 * Read a encrypted .txt file and write its content to decrypted .txt file.
+	 * The strings must not be null.
+	 * 
+	 * @param cipherTextPath Path to encrypted .txt file
+	 * @param cleartextAgainPath  Path to decrypted .txt file
+	 * @param privateKeyPath 
+	 * @param transformation always includes the name of a cryptographic algorithm and may be followed by a feedback mode and padding scheme
+	 * @param encoding
+	 */
+	public void readEncryptSaveDecrypt (String cipherTextPath, String cleartextAgainPath, String privateKeyPath, String transformation, String encoding)
             throws IOException, GeneralSecurityException {
 
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(IOUtils.toByteArray(new FileInputStream(privateKeyPath)));
-
+                
         Cipher cipher = Cipher.getInstance(transformation);
         cipher.init(Cipher.DECRYPT_MODE, KeyFactory.getInstance("RSA").generatePrivate(pkcs8EncodedKeySpec));
 
+        // return new String(cipher.doFinal(Base64.decodeBase64(cipherText)), encoding); 
+        
         //start saving
         
-    	String ciphertextFile = cipherTextPath;
-        String cleartextAgainFile = "cleartextAgainRSA_neuneu.txt";
+		FileInputStream fis = new FileInputStream(cipherTextPath);
+		System.out.println("Lesen von "+ cipherTextPath);
+		System.out.println("Inhalt:");
+		int content;
+		while ((content = fis.read()) != -1) {
+			// convert to char and display it
+			System.out.print((char) content);
+		}
+		System.out.println();
 
-		FileInputStream fis = new FileInputStream(ciphertextFile);
-		System.out.println("Lesen von "+ ciphertextFile);
 		CipherInputStream cis = new CipherInputStream(fis, cipher);
-		FileOutputStream fos = new FileOutputStream(cleartextAgainFile);
+		FileOutputStream fos = new FileOutputStream(cleartextAgainPath);
 		
     	byte[] block = new byte[32];
     	int i;
 		while ((i = cis.read(block)) != -1) {
 			fos.write(block, 0, i);
-		}
+		}	
+	    
 		fos.close();
-		cis.close();
-		System.out.println("Verschlüsselten Text gespeichert in "+ cleartextAgainFile);
+		cis.close();	
+		
+		System.out.println();
+		System.out.println("\nEntschlüsselten Text gespeichert in "+ cleartextAgainPath);
         // end saving
         
-		System.out.println("Entschlüsselungsprogramm erfolgreich ausgeführt.");
 }
 
-
+	/**
+	 * Read clear text from .txt file and write its content encrypted in another .txt file.
+	 * The strings must not be null.
+	 * 
+	 * @param rawTextPath  Path to a .txt file with text use "//" to switch folder
+	 * @param encryptTextPath  Path to a .txt file
+	 * @param publicKeyPath 
+	 * @param transformation always includes the name of a cryptographic algorithm and may be followed by a feedback mode and padding scheme
+	 * @param encoding
+	 */
 	public void readClearSaveEncrypt (String rawTextPath, String encryptTextPath, String publicKeyPath, String transformation, String encoding)throws Exception
 {
 	
@@ -124,12 +158,19 @@ public class AsymmetricEncryption {
     Cipher cipher = Cipher.getInstance(transformation);
     cipher.init(Cipher.ENCRYPT_MODE, KeyFactory.getInstance("RSA").generatePublic(x509EncodedKeySpec));
 	
+    //return Base64.encodeBase64String(cipher.doFinal(rawText.getBytes(encoding)));
 	
-    String cleartextFile = rawTextPath; //"cleartext.txt";
-    //String ciphertextFile = "ciphertextRSA_neu.txt";
-
-
-    FileInputStream fis = new FileInputStream(cleartextFile);
+    
+    FileInputStream fis = new FileInputStream(rawTextPath);
+    System.out.println("Lesen von "+ rawTextPath);
+    System.out.println("Inhalt:");
+	int content;
+	while ((content = fis.read()) != -1) {
+		// convert to char and display it
+		System.out.print((char) content);
+	}
+	System.out.println();
+    
     FileOutputStream fos = new FileOutputStream(encryptTextPath);
     CipherOutputStream cos = new CipherOutputStream(fos, cipher);
 
@@ -142,8 +183,8 @@ public class AsymmetricEncryption {
     	fis.close();
     	
     	
-    System.out.println("Verschlüsselungsprogramm erfolgreich ausgeführt.");
-
+    System.out.println("\nVerschlüsselungsprogramm erfolgreich ausgeführt.");
+    System.out.println();
 }
 	
 }
