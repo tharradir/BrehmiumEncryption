@@ -113,14 +113,14 @@ public class AsymmetricEncryption {
         //start saving
         
 		FileInputStream fis = new FileInputStream(cipherTextPath);
-		System.out.println("Lesen von "+ cipherTextPath);
-		System.out.println("Inhalt:");
-		int content;
-		while ((content = fis.read()) != -1) {
-			// convert to char and display it
-			System.out.print((char) content);
-		}
-		System.out.println();
+//		System.out.println("Lesen von "+ cipherTextPath);
+//		System.out.println("Inhalt:");
+//		int content;
+//		while ((content = fis.read()) != -1) {
+//			// convert to char and display it
+//			System.out.print((char) content);
+//		}
+//		System.out.println();
 
 		CipherInputStream cis = new CipherInputStream(fis, cipher);
 		FileOutputStream fos = new FileOutputStream(cleartextAgainPath);
@@ -162,15 +162,15 @@ public class AsymmetricEncryption {
 	
     
     FileInputStream fis = new FileInputStream(rawTextPath);
-    System.out.println("Lesen von "+ rawTextPath);
-    System.out.println("Inhalt:");
-	int content;
-	while ((content = fis.read()) != -1) {
-		// convert to char and display it
-		System.out.print((char) content);
-	}
-	System.out.println();
-    
+//    System.out.println("Lesen von "+ rawTextPath);
+//    System.out.println("Inhalt:");
+//	int content;
+//	while ((content = fis.read()) != -1) {
+//		// convert to char and display it
+//		System.out.print((char) content);
+//	}
+//	System.out.println();
+//    
     FileOutputStream fos = new FileOutputStream(encryptTextPath);
     CipherOutputStream cos = new CipherOutputStream(fos, cipher);
 

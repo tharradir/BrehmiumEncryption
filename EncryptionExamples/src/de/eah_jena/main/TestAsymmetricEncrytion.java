@@ -24,7 +24,7 @@ public class TestAsymmetricEncrytion {
     	// Decryption
     	
         AsymmetricEncryption rsaCipherDecryption = new AsymmetricEncryption();
-        rsaCipherDecryption.readEncryptSaveDecrypt("ciphertextRSA_3.txt", "cleartextAgain.txt", "Temp//private.key", "RSA/ECB/PKCS1Padding", "UTF-8");
+        rsaCipherDecryption.readEncryptSaveDecrypt("ciphertextRSA_3.txt", "cleartextAgain_testttt.txt", "Temp//private.key", "RSA/ECB/PKCS1Padding", "UTF-8");
          // System.out.println(decrypted);         
           
     }	
